@@ -26,7 +26,7 @@ const Header: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              FIXMYCAR
+              Ethereal
             </motion.span>
           </Link>
  
@@ -203,7 +203,7 @@ export default function EnhancedModernHomepage() {
             variants={fadeInUp}
           >
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
-              FIXMYCAR
+              ETHEREAL
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto">
               Sua oficina online com suporte ágil e prático. Volte à estrada em instantes!
@@ -244,7 +244,7 @@ export default function EnhancedModernHomepage() {
             >
               <h3 className="text-2xl font-semibold mb-4">Nossa Missão</h3>
               <p className="text-lg">
-                A FIXMYCAR é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
               </p>
               <h3 className="text-2xl font-semibold mb-4">Nossa Visão</h3>
               <p className="text-lg">
@@ -260,7 +260,7 @@ export default function EnhancedModernHomepage() {
             >
               <Image
                 src="/logo.png"
-                alt="logo escrito FIXMYCAR"
+                alt="logo com simbolos, um circulo e raios"
                 fill
                 style={{ objectFit: 'cover' }}
                 className="rounded-lg shadow-2xl"
@@ -273,7 +273,7 @@ export default function EnhancedModernHomepage() {
                   transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
                   className="bg-white p-6 rounded-full shadow-xl"
                 >
-                  <span className="text-blue-600 font-bold text-xl">FIXMYCAR</span>
+                  <span className="text-blue-600 font-bold text-xl">ETHEREAL</span>
                 </motion.div>
               </div>
             </motion.div>
@@ -387,7 +387,7 @@ export default function EnhancedModernHomepage() {
             <h2 className="text-4xl font-bold mb-4">Nossa Equipe</h2>
             <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
-              Conheça os talentosos profissionais por trás da FIXMYCAR, dedicados a oferecer o melhor serviço para você.
+              Conheça os talentosos profissionais por trás da Ethereal, dedicados a oferecer o melhor serviço para você.
             </p>
           </motion.div>
           <div className="flex justify-center">
@@ -574,7 +574,7 @@ export default function EnhancedModernHomepage() {
                 </div>
                 <div className="flex items-center">
                   <Mail className="text-blue-500 mr-4" />
-                  <span>contato@fixmycar.com</span>
+                  <span>contato@Ethereal.com</span>
                 </div>
                 <div className="flex items-center">
                   <MapPin className="text-blue-500 mr-4" />
@@ -598,7 +598,7 @@ export default function EnhancedModernHomepage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <Link href="/" className="text-2xl font-bold text-blue-500 mb-4 inline-block">
-                FIXMYCAR
+                Ethereal
               </Link>
               <p className="text-gray-400">Sua oficina online de confiança</p>
             </div>
@@ -630,7 +630,7 @@ export default function EnhancedModernHomepage() {
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-400">&copy; 2024 FIXMYCAR. Todos os direitos reservados.</p>
+            <p className="text-gray-400">&copy; 2024 Ethereal. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

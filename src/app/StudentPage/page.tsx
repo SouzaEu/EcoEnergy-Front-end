@@ -76,7 +76,7 @@ export default function TeamPage() {
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Nossa Equipe</h1>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            O projeto de Front-end Challenge foi liderado por uma equipe colaborativa composta pelos alunos abaixo. 
+            O projeto de Front-end da Global Solution foi liderado por uma equipe colaborativa composta pelos alunos abaixo. 
             O objetivo era criar um site para uma oficina automotiva da Porto, utilizando tecnologias modernas e design intuitivo.
           </p>
           <motion.div 
@@ -86,7 +86,7 @@ export default function TeamPage() {
             className="mt-6"
           >
             <Link 
-              href="https://github.com/SouzaEu/Challenge-1TDSPK" 
+              href="https://github.com/SouzaEu/GLOBAL-SOLUTION-FRONT-END-1TDSPK" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-blue-500 hover:text-blue-400 transition-colors inline-flex items-center"
