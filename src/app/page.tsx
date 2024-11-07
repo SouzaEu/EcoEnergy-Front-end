@@ -5,19 +5,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, X, ChevronDown, Send, Phone, Mail, MapPin, MousePointer } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaCar, FaClock, FaCalendar, FaUser } from 'react-icons/fa'
-import Chatbot from '../app/components/Chatbot'
+import { FaSolarPanel, FaWind, FaLeaf, FaChartLine } from 'react-icons/fa'
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
-  const menuItems = ['Início', 'Sobre Nós', 'Integrantes', 'Insights', 'Serviços', 'Contato']
+  const menuItems = ['Início', 'Sobre Nós','Serviços', 'Integrantes', 'Insights', 'Contato']
 
   return (
     <div className="p-2 sm:p-4">
-      <header className="bg-[#2e2e2e] text-white rounded-[10em] border-[3.5px] border-blue-900 shadow-lg transition-all duration-300 ease-in-out overflow-hidden fixed top-3 left-0 right-0 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] mx-auto z-10">
+      <header className="bg-[#2e2e2e] text-white rounded-[10em] border-[3.5px] border-green-600 shadow-lg transition-all duration-300 ease-in-out overflow-hidden fixed top-3 left-0 right-0 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] mx-auto z-10">
         <div className="flex items-center justify-between h-14 pr-4 pl-6">
           <Link href="/" className="flex items-center space-x-2">
             <motion.span 
@@ -26,7 +25,7 @@ const Header: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              Ethereal
+              EcoEnergy
             </motion.span>
           </Link>
  
@@ -42,7 +41,7 @@ const Header: React.FC = () => {
                   className="text-gray-300 hover:text-white transition-colors duration-300 ease-in-out relative group"
                 >
                   {item}
-                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
                 </Link>
               </motion.div>
             ))}
@@ -52,7 +51,7 @@ const Header: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 ease-in-out"
+              className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-all duration-300 ease-in-out"
             >
               <Link href="/subscription-page" className="w-full h-full flex items-center justify-center">
                 Assinar
@@ -61,7 +60,7 @@ const Header: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 ease-in-out"
+              className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-all duration-300 ease-in-out"
             >
               <Link href="/auth-page" className="w-full h-full flex items-center justify-center">
                 Login
@@ -125,7 +124,7 @@ const Header: React.FC = () => {
                         onClick={toggleMenu}
                       >
                         {item}
-                        <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out origin-left" />
+                        <span className="absolute left-0 bottom-0 w-full h-0.5 bg-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out origin-left" />
                       </Link>
                     </motion.div>
                   ))}
@@ -141,7 +140,7 @@ const Header: React.FC = () => {
                       onClick={toggleMenu}
                     >
                       Assinar
-                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-600" />
+                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-green-500" />
                     </Link>
                   </motion.div>
                   <motion.div
@@ -154,7 +153,7 @@ const Header: React.FC = () => {
                       onClick={toggleMenu}
                     >
                       Login
-                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-blue-600" />
+                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-green-500" />
                     </Link>
                   </motion.div>
                 </div>
@@ -167,14 +166,55 @@ const Header: React.FC = () => {
   )
 }
 
+interface FormData {
+  consumo: string;
+  tipoEnergia: string;
+  setor: string;
+}
+
+interface Resultados {
+  consumoAntigo: string;
+  consumoNovo: string;
+  emissaoAntiga: string;
+  emissaoNova: string;
+  economiaTotal: string;
+}
+
 export default function EnhancedModernHomepage() {
   const [scrollY, setScrollY] = useState(0)
+  const [formData, setFormData] = useState<FormData>({
+    consumo: '',
+    tipoEnergia: '',
+    setor: ''
+  })
+  const [resultados, setResultados] = useState<Resultados | null>(null)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // Simular cálculos (substitua isso por cálculos reais)
+    const resultadosSimulados: Resultados = {
+      consumoAntigo: formData.consumo,
+      consumoNovo: (parseFloat(formData.consumo) * 0.8).toFixed(2),
+      emissaoAntiga: (parseFloat(formData.consumo) * 0.5).toFixed(2),
+      emissaoNova: (parseFloat(formData.consumo) * 0.1).toFixed(2),
+      economiaTotal: (parseFloat(formData.consumo) * 0.2 * 0.5).toFixed(2)
+    }
+    setResultados(resultadosSimulados)
+  }
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -202,11 +242,11 @@ export default function EnhancedModernHomepage() {
             animate="animate"
             variants={fadeInUp}
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
-              ETHEREAL
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-blue-500">
+              EcoEnergy
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto">
-              Sua oficina online com suporte ágil e prático. Volte à estrada em instantes!
+              Impulsionando o crescimento econômico através de soluções em energia renovável e sustentável.
             </p>
           </motion.div>
           <motion.div
@@ -216,7 +256,7 @@ export default function EnhancedModernHomepage() {
             className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
             onClick={scrollToNextSection}
           >
-            <MousePointer className="w-10 h-10 text-blue-500 animate-bounce" />
+            <MousePointer className="w-10 h-10 text-green-500 animate-bounce" />
           </motion.div>
         </div>
       </section>
@@ -231,11 +271,10 @@ export default function EnhancedModernHomepage() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <h2 className="text-4xl font-bold mb-4">Ideia Proposta</h2>
-            <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
+            <h2 className="text-4xl font-bold mb-4">Sobre Nós</h2>
+            <div className="w-24 h-1 bg-green-500 mx-auto"></div>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-10 items-center">
-
             <motion.div 
               className="relative h-96"
               initial="initial"
@@ -244,13 +283,13 @@ export default function EnhancedModernHomepage() {
               variants={fadeInUp}
             >
               <Image
-                src="/logo.png"
-                alt="logo com simbolos, um circulo e raios"
+                src="/hydrogen-green.jpg"
+                alt="Imagem representando energia renovável"
                 fill
                 style={{ objectFit: 'cover' }}
                 className="rounded-lg shadow-2xl"
               />
-              <div className="absolute inset-0 bg-blue-600 opacity-20 rounded-lg"></div>
+              <div className="absolute inset-0 bg-green-600 opacity-20 rounded-lg"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
                   initial={{ scale: 0 }}
@@ -258,7 +297,7 @@ export default function EnhancedModernHomepage() {
                   transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
                   className="bg-white p-6 rounded-full shadow-xl"
                 >
-                  <span className="text-blue-600 font-bold text-xl">ETHEREAL</span>
+                  <span className="text-green-600 font-bold text-xl">EcoEnergy</span>
                 </motion.div>
               </div>
             </motion.div>
@@ -269,76 +308,23 @@ export default function EnhancedModernHomepage() {
               viewport={{ once: true }}
               variants={fadeInUp}
             >
-              <h3 className="text-2xl font-semibold mb-4">Nossa Missão</h3>
+              <h3 className="text-2xl font-semibold mb-4">O que queremos melhorar?</h3>
               <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+                Nosso foco principal é impulsionar o crescimento econômico através da adoção de tecnologias de energia renovável, com ênfase no Hidrogênio Verde.
               </p>
               <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+                Buscamos criar uma plataforma que integre inteligência artificial para calcular e reduzir custos e emissões, oferecendo soluções personalizadas de energia limpa.
               </p>
               <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+                Nosso objetivo é democratizar o acesso à energia sustentável, promovendo desenvolvimento econômico e preservação ambiental simultaneamente.
               </p>
-              
             </motion.div>
-          </div>
-
-      {/* Parte 2 da ideia do projeto */}
-
-      <div className="grid md:grid-cols-2 gap-10 items-center mt-10">
-
-          <motion.div 
-              className="space-y-6"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <h3 className="text-2xl font-semibold mb-4">Nossa Ideia</h3>
-              <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
-              </p>
-              <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
-              </p>
-              <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
-              </p>
-              
-            </motion.div>
-            <motion.div 
-              className="relative h-96"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <Image
-                src="/logo.png"
-                alt="logo com simbolos, um circulo e raios"
-                fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-lg shadow-2xl"
-              />
-              <div className="absolute inset-0 bg-blue-600 opacity-20 rounded-lg"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
-                  className="bg-white p-6 rounded-full shadow-xl"
-                >
-                  <span className="text-blue-600 font-bold text-xl">ETHEREAL</span>
-                </motion.div>
-              </div>
-            </motion.div>
-            
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="serviços" className="py-20">
+      {/* Economize com Hidrogênio Verde Section */}
+      <section id="serviços" className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <motion.div 
             className="text-center mb-16"
@@ -347,85 +333,111 @@ export default function EnhancedModernHomepage() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <h2 className="text-4xl font-bold mb-4">Nossos Serviços</h2>
-            <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
+            <h2 className="text-4xl font-bold mb-4">Economize com Hidrogênio Verde</h2>
+            <div className="w-24 h-1 bg-green-500 mx-auto mb-8"></div>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Descubra quanto você pode economizar e reduzir suas emissões ao adotar o hidrogênio verde. Informe seu consumo atual e setor para calcular o impacto direto dessa transição.
+            </p>
           </motion.div>
-          <div className="grid md:grid-cols-2 gap-10">
-            <motion.div 
-              className="space-y-8"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <h3 className="text-2xl font-semibold mb-4">Desempenho dos Serviços</h3>
-              {['Diagnóstico Online', 'Manutenção Preventiva', 'Reparos Especializados', 'Atendimento'].map((service, index) => (
-                <div key={service} className="relative pt-1">
-                  <div className="flex mb-2 items-center justify-between">
-                    <div>
-                      <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
-                        {service}
-                      </span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-xs font-semibold inline-block text-blue-600">
-                        {85 + index * 5}%
-                      </span>
-                    </div>
-                  </div>
-                  <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-                    <motion.div 
-                      style={{ width: `${85 + index * 5}%` }}
-                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${85 + index * 5}%` }}
-                      transition={{ duration: 1, delay: index * 0.2 }}
-                    />
-                  </div>
+
+          <div className="max-w-2xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="consumo" className="block text-sm font-medium text-gray-300 mb-2">
+                  Consumo Atual de Energia
+                </label>
+                <input
+                  type="number"
+                  id="consumo"
+                  name="consumo"
+                  value={formData.consumo}
+                  onChange={handleInputChange}
+                  placeholder="Insira seu consumo médio mensal em kWh"
+                  className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="tipoEnergia" className="block text-sm font-medium text-gray-300 mb-2">
+                  Tipo de Energia Atual
+                </label>
+                <div className="relative">
+                  <select
+                    id="tipoEnergia"
+                    name="tipoEnergia"
+                    value={formData.tipoEnergia}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none"
+                    required
+                  >
+                    <option value="">Selecione o tipo de energia</option>
+                    <option value="gas-natural">Gás Natural</option>
+                    <option value="carvao">Carvão</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="eletricidade">Eletricidade</option>
+                    <option value="solar">Solar</option>
+                    <option value="eolica">Eólica</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
                 </div>
-              
-              ))}
-            </motion.div>
-            <motion.div 
-              className="grid grid-cols-2 gap-6"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              {['Satisfação do Cliente', 'Eficiência', 'Inovação', 'Confiabilidade'].map((metric, index) => (
-                <div key={metric} className="text-center">
-                  <svg className="w-32 h-32 mx-auto" viewBox="0 0 100 100">
-                    <circle 
-                      cx="50" 
-                      cy="50" 
-                      r="45" 
-                      fill="none" 
-                      stroke="#E0E0E0" 
-                      strokeWidth="10"
-                    />
-                    <motion.circle
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="#3B82F6"
-                      strokeWidth="10"
-                      strokeDasharray={2 * Math.PI * 45}
-                      strokeDashoffset={2 * Math.PI * 45 * (1 - (0.9 + index * 0.02))}
-                      transform="rotate(-90 50 50)"
-                      initial={{ strokeDashoffset: 2 * Math.PI * 45 }}
-                      animate={{ strokeDashoffset: 2 * Math.PI * 45 * (1 - (0.9 + index * 0.02)) }}
-                      transition={{ duration: 2, delay: index * 0.2 }}
-                    />
-                    <text x="50" y="50" textAnchor="middle" dy=".3em" className="text-3xl font-bold" fill="currentColor">
-                      {90 + index * 2}%
-                    </text>
-                  </svg>
-                  <p className="mt-2 text-lg font-semibold">{metric}</p>
+              </div>
+              <div>
+                <label htmlFor="setor" className="block text-sm font-medium text-gray-300 mb-2">
+                  Setor de Atuação
+                </label>
+                <div className="relative">
+                  <select
+                    id="setor"
+                    name="setor"
+                    value={formData.setor}
+                    onChange={handleInputChange}
+                    className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none"
+                    required
+                  >
+                    <option value="">Selecione o setor</option>
+                    <option value="industria">Indústria</option>
+                    <option value="transporte">Transporte</option>
+                    <option value="comercial">Comercial</option>
+                    <option value="residencial">Residencial</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
                 </div>
-              ))}
-            </motion.div>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-300"
+              >
+                Calcular Economia
+              </button>
+            </form>
+
+            {resultados && (
+              <motion.div 
+                className="mt-8 p-6 bg-gray-700 rounded-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <h3 className="text-2xl font-semibold mb-4 text-green-400">Resultados</h3>
+                <div className="space-y-2 text-gray-300">
+                  <p><span className="font-medium">Consumo Atual:</span> {resultados.consumoAntigo} kWh</p>
+                  <p><span className="font-medium">Consumo com Hidrogênio Verde:</span> {resultados.consumoNovo} kWh</p>
+                  <p><span className="font-medium">Emissão de Gases (Atual):</span> {resultados.emissaoAntiga} toneladas de CO₂</p>
+                  <p><span className="font-medium">Emissão de Gases (Novo):</span> {resultados.emissaoNova} toneladas de CO₂</p>
+                  <p><span className="font-medium">Economia Total:</span> R$ {resultados.economiaTotal} por mês</p>
+                </div>
+              </motion.div>
+            )}
+
+            <div className="mt-8 text-center">
+              <p className="text-xl mb-4 text-gray-300">Pronto para adotar uma energia limpa e econômica?</p>
+              <button
+                onClick={() => document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300"
+              >
+                Fale com um Especialista
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -441,9 +453,9 @@ export default function EnhancedModernHomepage() {
             variants={fadeInUp}
           >
             <h2 className="text-4xl font-bold mb-4">Nossa Equipe</h2>
-            <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
+            <div className="w-24 h-1 bg-green-500 mx-auto mb-8"></div>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
-              Conheça os talentosos profissionais por trás da Ethereal, dedicados a oferecer o melhor serviço para você.
+              Conheça os talentosos profissionais por trás da EcoEnergy, dedicados a impulsionar a transição para energia sustentável.
             </p>
           </motion.div>
           <div className="flex justify-center">
@@ -453,9 +465,9 @@ export default function EnhancedModernHomepage() {
             >
               <Link 
                 href="/StudentPage"
-                className="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-bold rounded-full bg-blue-600 text-white"
+                className="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-bold rounded-full bg-green-600 text-white"
               >
-                <span className="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 group-hover:opacity-100"></span>
+                <span className="absolute inset-0 w-full h-full transition duration-300 ease-out opacity-0 bg-gradient-to-br from-green-700 via-green-800 to-green-900 group-hover:opacity-100"></span>
                 <span className="absolute top-0 left-0 w-full bg-gradient-to-b from-white to-transparent opacity-5 h-1/3"></span>
                 <span className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-white to-transparent opacity-5"></span>
                 <span className="absolute bottom-0 left-0 w-4 h-full bg-gradient-to-r from-white to-transparent opacity-5"></span>
@@ -472,7 +484,7 @@ export default function EnhancedModernHomepage() {
         </div>
       </section>
 
-      {/* Sessão de Insight */}
+      {/* Insights Section */}
       <section id="insights" className="py-20">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -482,13 +494,13 @@ export default function EnhancedModernHomepage() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <h2 className="text-4xl font-bold mb-4">Insight</h2>
-            <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
-            <p className="mt-4 text-xl text-gray-400">Status atualizado do seu veículo em reparo</p>
+            <h2 className="text-4xl font-bold mb-4">Insights</h2>
+            <div className="w-24 h-1 bg-green-500 mx-auto"></div>
+            <p className="mt-4 text-xl text-gray-400">Acompanhe o progresso da transição energética</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Status do Veículo */}
+            {/* Renewable Energy Progress */}
             <motion.div 
               className="bg-gray-800 p-6 rounded-lg shadow-lg"
               initial={{ opacity: 0, y: 20 }}
@@ -496,25 +508,21 @@ export default function EnhancedModernHomepage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl font-semibold mb-4 text-blue-400">Status do Veículo</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-green-400">Progresso em Energia Renovável</h3>
               <div className="space-y-3">
                 <div className="flex items-center">
-                  <FaCar className="text-blue-500 mr-2" size={20} />
-                  <p><span className="font-medium">Situação Atual:</span> Em Reparo</p>
+                  <FaSolarPanel className="text-green-500 mr-2" size={20} />
+                  <p><span className="font-medium">Energia Solar:</span> 30% de aumento</p>
                 </div>
-                <p><span className="font-medium">Etapa Atual:</span> Inspeção do sistema de freios</p>
+                <p><span className="font-medium">Capacidade Total:</span> 150 GW instalados</p>
                 <div className="flex items-center">
-                  <FaClock className="text-blue-500 mr-2" size={20} />
-                  <p><span className="font-medium">Tempo Estimado:</span> Previsão de conclusão em 2 dias</p>
-                </div>
-                <div className="flex items-center">
-                  <FaCalendar className="text-blue-500 mr-2" size={20} />
-                  <p><span className="font-medium">Data de Entrada:</span> 28/10/2024</p>
+                  <FaWind className="text-green-500 mr-2" size={20} />
+                  <p><span className="font-medium">Energia Eólica:</span> 25% de crescimento</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Detalhes do Reparo */}
+            {/* Emission Reduction */}
             <motion.div 
               className="bg-gray-800 p-6 rounded-lg shadow-lg"
               initial={{ opacity: 0, y: 20 }}
@@ -522,25 +530,18 @@ export default function EnhancedModernHomepage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h3 className="text-2xl font-semibold mb-4 text-blue-400">Detalhes do Reparo</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-green-400">Redução de Emissões</h3>
               <div className="space-y-3">
-                <p><span className="font-medium">Última Atualização:</span> Peças de freio substituídas, aguardando teste final</p>
-                <div>
-                  <p className="font-medium mb-2">Itens de Reparo:</p>
-                  <ul className="list-disc list-inside pl-4 space-y-1">
-                    <li>Sistema de Freios: Substituição em andamento</li>
-                    <li>Motor: Inspecionado - Sem problemas</li>
-                    <li>Bateria: Carregada e testada</li>
-                  </ul>
-                </div>
+                <p><span className="font-medium">Redução Total:</span> 15% em comparação ao ano anterior</p>
                 <div className="flex items-center">
-                  <FaUser className="text-blue-500 mr-2" size={20} />
-                  <p><span className="font-medium">Responsável Técnico:</span> Gabriel Pinto</p>
+                  <FaLeaf className="text-green-500 mr-2" size={20} />
+                  <p><span className="font-medium">Setor Industrial:</span> 20% de redução</p>
                 </div>
+                <p><span className="font-medium">Transporte:</span> 10% de redução nas emissões</p>
               </div>
             </motion.div>
 
-            {/* Histórico Rápido */}
+            {/* Economic Impact */}
             <motion.div 
               className="bg-gray-800 p-6 rounded-lg shadow-lg"
               initial={{ opacity: 0, y: 20 }}
@@ -548,22 +549,14 @@ export default function EnhancedModernHomepage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <h3 className="text-2xl font-semibold mb-4 text-blue-400">Histórico Rápido</h3>
-              <div className="space-y-4">
-                <div>
-                  <p className="font-medium mb-2">Histórico de Reparo:</p>
-                  <ul className="space-y-1">
-                    <li>Último Reparo: Sistema de ar condicionado - Concluído em 15/09/2024</li>
-                    <li>Revisão Geral: Feita em 30/07/2024</li>
-                  </ul>
+              <h3 className="text-2xl font-semibold mb-4 text-green-400">Impacto Econômico</h3>
+              <div className="space-y-3">
+                <div className="flex items-center">
+                  <FaChartLine className="text-green-500 mr-2" size={20} />
+                  <p><span className="font-medium">Novos Empregos:</span> 100.000 no setor de energia limpa</p>
                 </div>
-                <div>
-                  <p className="font-medium mb-2">Manutenções Recentes:</p>
-                  <ul className="space-y-1">
-                    <li>Troca de óleo: Concluído em 15/08/2024</li>
-                    <li>Alinhamento: Feito em 10/08/2024</li>
-                  </ul>
-                </div>
+                <p><span className="font-medium">Investimento em P&D:</span> R$ 5 bilhões</p>
+                <p><span className="font-medium">Economia Projetada:</span> R$ 10 bilhões até 2030</p>
               </div>
             </motion.div>
           </div>
@@ -581,7 +574,7 @@ export default function EnhancedModernHomepage() {
             variants={fadeInUp}
           >
             <h2 className="text-4xl font-bold mb-4">Entre em Contato</h2>
-            <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
+            <div className="w-24 h-1 bg-green-500 mx-auto"></div>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-10">
             <motion.div 
@@ -595,20 +588,20 @@ export default function EnhancedModernHomepage() {
               <form>
                 <div className="mb-4">
                   <label htmlFor="name" className="block text-gray-400 mb-2">Nome</label>
-                  <input type="text" id="name" className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="text" id="name" className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="email" className="block text-gray-400 mb-2">Email</label>
-                  <input type="email" id="email" className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input type="email" id="email" className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div className="mb-4">
                   <label htmlFor="message" className="block text-gray-400 mb-2">Mensagem</label>
-                  <textarea id="message" rows={4} className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                  <textarea id="message" rows={4} className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
                 </div>
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 inline-flex items-center"
                 >
                   Enviar Mensagem
                   <Send className="ml-2" size={18} />
@@ -625,23 +618,22 @@ export default function EnhancedModernHomepage() {
               <h3 className="text-2xl font-semibold mb-6">Informações de Contato</h3>
               <div className="space-y-4">
                 <div className="flex items-center">
-                  <Phone className="text-blue-500 mr-4" />
-                  <span>(11) 1234-5678</span>
+                  <Phone className="text-green-500 mr-4" size={24} />
+                  <p>(11) 1234-5678</p>
                 </div>
                 <div className="flex items-center">
-                  <Mail className="text-blue-500 mr-4" />
-                  <span>contato@Ethereal.com</span>
+                  <Mail className="text-green-500 mr-4" size={24} />
+                  <p>contato@ecoenergy.com</p>
                 </div>
                 <div className="flex items-center">
-                  <MapPin className="text-blue-500 mr-4" />
-                  <span>Avenida Paulista, 756 - São Paulo, SP</span>
+                  <MapPin className="text-green-500 mr-4" size={24} />
+                  <p>Av. Paulista, 1000 - São Paulo, SP</p>
                 </div>
               </div>
               <div className="mt-8">
-                <h4 className="text-xl font-semibold mb-4">Horário de Funcionamento</h4>
-                <p>Segunda a Sexta: 8h às 18h</p>
-                <p>Sábado: 9h às 14h</p>
-                <p>Domingo: Fechado</p>
+                <h4 className="text-xl font-semibold mb-4">Horário de Atendimento</h4>
+                <p>Segunda a Sexta: 9h às 18h</p>
+                <p>Sábado: 9h às 13h</p>
               </div>
             </motion.div>
           </div>
@@ -649,48 +641,48 @@ export default function EnhancedModernHomepage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 py-12">
+      <footer className="bg-gray-900 text-gray-400 py-8">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <Link href="/" className="text-2xl font-bold text-blue-500 mb-4 inline-block">
-                Ethereal
-              </Link>
-              <p className="text-gray-400">Sua oficina online de confiança</p>
+          <div className="flex flex-wrap justify-between items-center">
+            <div className="w-full md:w-1/3 mb-6 md:mb-0">
+              <h3 className="text-2xl font-bold text-white mb-4">EcoEnergy</h3>
+              <p>Impulsionando o futuro da energia sustentável.</p>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Links Rápidos</h4>
+            <div className="w-full md:w-1/3 mb-6 md:mb-0">
+              <h4 className="text-lg font-semibold text-white mb-4">Links Rápidos</h4>
               <ul className="space-y-2">
-                {['Início', 'Sobre Nós', 'Serviços', 'Insights', 'Contato'].map((item) => (
-                  <li key={item}>
-                    <Link href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-gray-400 hover:text-blue-500 transition-colors duration-300">
-                      {item}
-                    </Link>
-                  </li>
-                ))}
+                <li><Link href="#início" className="hover:text-green-500 transition-colors duration-300">Início</Link></li>
+                <li><Link href="#sobre-nós" className="hover:text-green-500 transition-colors duration-300">Sobre Nós</Link></li>
+                <li><Link href="#serviços" className="hover:text-green-500 transition-colors duration-300">Serviços</Link></li>
+                <li><Link href="#contato" className="hover:text-green-500 transition-colors duration-300">Contato</Link></li>
               </ul>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Siga-nos</h4>
+            <div className="w-full md:w-1/3">
+              <h4 className="text-lg font-semibold text-white mb-4">Siga-nos</h4>
               <div className="flex space-x-4">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                  </svg>
                 </a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" />
+                  </svg>
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500 transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                  </svg>
                 </a>
               </div>
             </div>
           </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p className="text-gray-400">&copy; 2024 Ethereal. Todos os direitos reservados.</p>
+          <div className="mt-8 text-center">
+            <p>&copy; 2024 EcoEnergy. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>
-      <Chatbot/>
     </div>
   )
 }
