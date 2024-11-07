@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, Github, Mail, User, Hash } from 'lucide-react'
+import { ArrowLeft, Github, Linkedin, Mail, User, Hash } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const teamMembers = [
@@ -12,6 +12,7 @@ const teamMembers = [
     email: "vinisouzacntt@gmail.com",
     rm: "556089",
     github: "https://github.com/SouzaEu",
+    Linkedin: "https://www.linkedin.com/in/souzav/",
     image: "/rosto-vini.jpg",
     role: "Back-end Developer"
   },
@@ -20,14 +21,16 @@ const teamMembers = [
     email: "gabrielduarte3219@gmail.com",
     rm: "556972",
     github: "https://github.com/gabrielduar7e",
+    Linkedin: "https://github.com/ThomazBartol",
     image: "/gabrielgatao.jpg",
     role: "UI/UX Designer"
   },
   {
-    name: "Thomaz Oliveira Vilas Boas Bartol",
+    name: "Thomaz Oliveira Bartol",
     email: "thomaz.bartol2006@gmail.com",
     rm: "555323",
     github: "https://github.com/ThomazBartol",
+    Linkedin: "https://github.com/ThomazBartol",
     image: "/rosto-thomaz.jpg",
     role: "Front-end Developer"
   }
@@ -157,6 +160,22 @@ export default function TeamPage() {
                     >
                       <Github className="w-4 h-4 mr-2" />
                       GitHub Profile
+                    </a>
+                  </motion.div>
+
+                  
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <a
+                      href={member.Linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-full py-2 mt-4 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors"
+                    >
+                      <Linkedin className="w-4 h-4 mr-2" />
+                      Linkedin Profile
                     </a>
                   </motion.div>
                 </div>
