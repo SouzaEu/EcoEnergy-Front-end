@@ -282,6 +282,58 @@ export default function EnhancedModernHomepage() {
               
             </motion.div>
           </div>
+
+      {/* Parte 2 da ideia do projeto */}
+
+      <div className="grid md:grid-cols-2 gap-10 items-center mt-10">
+
+          <motion.div 
+              className="space-y-6"
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <h3 className="text-2xl font-semibold mb-4">Nossa Ideia</h3>
+              <p className="text-lg">
+                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+              </p>
+              <p className="text-lg">
+                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+              </p>
+              <p className="text-lg">
+                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+              </p>
+              
+            </motion.div>
+            <motion.div 
+              className="relative h-96"
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <Image
+                src="/logo.png"
+                alt="logo com simbolos, um circulo e raios"
+                fill
+                style={{ objectFit: 'cover' }}
+                className="rounded-lg shadow-2xl"
+              />
+              <div className="absolute inset-0 bg-blue-600 opacity-20 rounded-lg"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.5, type: 'spring', stiffness: 260, damping: 20 }}
+                  className="bg-white p-6 rounded-full shadow-xl"
+                >
+                  <span className="text-blue-600 font-bold text-xl">ETHEREAL</span>
+                </motion.div>
+              </div>
+            </motion.div>
+            
+          </div>
         </div>
       </section>
 
