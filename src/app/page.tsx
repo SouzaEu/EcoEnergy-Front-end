@@ -235,22 +235,7 @@ export default function EnhancedModernHomepage() {
             <div className="w-24 h-1 bg-blue-500 mx-auto"></div>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-10 items-center">
-            <motion.div 
-              className="space-y-6"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <h3 className="text-2xl font-semibold mb-4">Nossa Missão</h3>
-              <p className="text-lg">
-                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
-              </p>
-              <h3 className="text-2xl font-semibold mb-4">Nossa Visão</h3>
-              <p className="text-lg">
-                Com uma equipe de profissionais altamente qualificados e um sistema inovador de diagnóstico e atendimento, estamos revolucionando a maneira como as pessoas cuidam de seus veículos.
-              </p>
-            </motion.div>
+
             <motion.div 
               className="relative h-96"
               initial="initial"
@@ -276,6 +261,22 @@ export default function EnhancedModernHomepage() {
                   <span className="text-blue-600 font-bold text-xl">ETHEREAL</span>
                 </motion.div>
               </div>
+            </motion.div>
+            <motion.div 
+              className="space-y-6"
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+            >
+              <h3 className="text-2xl font-semibold mb-4">Nossa Missão</h3>
+              <p className="text-lg">
+                A Ethereal é uma oficina totalmente online, projetada para oferecer suporte ágil e prático aos nossos clientes. Nossa missão é garantir que você volte à estrada o mais rápido possível, sem comprometer a qualidade do serviço.
+              </p>
+              <h3 className="text-2xl font-semibold mb-4">Nossa Visão</h3>
+              <p className="text-lg">
+                Com uma equipe de profissionais altamente qualificados e um sistema inovador de diagnóstico e atendimento, estamos revolucionando a maneira como as pessoas cuidam de seus veículos.
+              </p>
             </motion.div>
           </div>
         </div>
