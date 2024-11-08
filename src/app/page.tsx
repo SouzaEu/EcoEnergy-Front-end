@@ -15,12 +15,12 @@ const Header: React.FC = () => {
   const menuItems = ['Início', 'Sobre Nós','Serviços', 'Integrantes', 'Insights', 'Contato']
 
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-2 sm:p-4 bg-gray-900">
       <header className="bg-[#2e2e2e] text-white rounded-[10em] border-[3.5px] border-green-600 shadow-lg transition-all duration-300 ease-in-out overflow-hidden fixed top-3 left-0 right-0 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] mx-auto z-10">
         <div className="flex items-center justify-between h-14 pr-4 pl-6">
           <Link href="/" className="flex items-center space-x-2">
             <motion.span 
-              className="text-lg font-bold tracking-tight"
+              className="text-lg font-bold tracking-tight bg-gradient-to-r from-green-500 to-green-600 text-transparent bg-clip-text"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
