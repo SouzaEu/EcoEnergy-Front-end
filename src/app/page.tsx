@@ -456,7 +456,7 @@ export default function EnhancedModernHomepage() {
       </section>
 
       {/* Team Section */}
-      <section id="integrantes" className="py-20 bg-gray-800">
+      <section id="integrantes" className="py-20 bg-neutral-800">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
