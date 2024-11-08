@@ -131,7 +131,7 @@ export default function TeamPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 + index * 0.2 }}
-                  className="absolute inset-0 bg-green-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute inset-0 bg-gray-600/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                 />
               </div>
 

@@ -12,7 +12,7 @@ const Header: React.FC = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
-  const menuItems = ['Início', 'Sobre Nós', 'Serviços', 'Integrantes', 'Insights', 'Contato']
+  const menuItems = ['Início', 'Sobre Nós', 'Serviços', 'Equipe', 'Insights', 'Contato']
 
   return (
     <div className="p-2 sm:p-4">
