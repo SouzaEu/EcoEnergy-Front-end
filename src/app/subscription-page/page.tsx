@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, Home, Mail, MapPin, Phone, Shield, User } from 'lucide-react'
+import { ArrowLeft, ChevronDown, Home, Mail, MapPin, Phone, Shield, User } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -102,7 +102,16 @@ export default function Component() {
           transition={{ duration: 0.5 }}
           className="bg-neutral-800 shadow-2xl rounded-lg p-8 border-[3.5px] border-green-600"
         >
-
+          <Link href="/">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mb-6 text-green-400 hover:text-green-300 transition-all duration-300 ease-in-out flex items-center"
+            >
+              <ArrowLeft size={16} className="mr-2" />
+              Voltar
+            </motion.button>
+          </Link>
           <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-500 to-green-600 text-transparent bg-clip-text mb-6">Assine o Plano EcoEnergy</h2>
           <p className="text-gray-300 text-center mb-8">
             Preencha os detalhes para aderir ao nosso plano de energia sustentável e economize com hidrogênio verde.

@@ -1,7 +1,8 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 // Definindo o tipo para os dados do formulário
@@ -61,15 +62,30 @@ export default function AuthPage() {
   const togglePasswordVisibility = () => setShowPassword(!showPassword)
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-neutral-900 to-neutral-800 p-4">
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-4000"></div>
+      </div>
+      <div className="w-full max-w-md z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-800 shadow-2xl rounded-lg p-8"
+          className="bg-neutral-800 shadow-2xl rounded-lg p-8 border-[3.5px] border-green-600"
         >
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
+          <Link href="/">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mb-6 text-green-400 hover:text-green-300 transition-all duration-300 ease-in-out flex items-center"
+            >
+              <ArrowLeft size={16} className="mr-2" />
+              Voltar
+            </motion.button>
+          </Link>
+          <h2 className="text-4xl font-bold text-center bg-gradient-to-r from-green-500 to-green-600 text-transparent bg-clip-text mb-6">
             {isLogin ? 'Login' : 'Cadastro'}
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,7 +108,7 @@ export default function AuthPage() {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                      className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
                       placeholder="Seu nome completo"
                     />
                     {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
@@ -110,7 +126,7 @@ export default function AuthPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
                 placeholder="seu@email.com"
               />
               {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
@@ -126,7 +142,7 @@ export default function AuthPage() {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                  className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
                   placeholder="Sua senha"
                 />
                 <button
@@ -158,7 +174,7 @@ export default function AuthPage() {
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                      className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
                       placeholder="Confirme sua senha"
                     />
                     {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
@@ -168,14 +184,14 @@ export default function AuthPage() {
             </AnimatePresence>
             {isLogin && (
               <div className="text-right">
-                <a href="#" className="text-sm text-blue-400 hover:text-blue-300 transition duration-200">
+                <a href="#" className="text-sm text-green-400 hover:text-green-300 transition duration-200">
                   Esqueceu sua senha?
                 </a>
               </div>
             )}
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
+              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-neutral-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
             >
               {isLogin ? 'Entrar' : 'Cadastrar'}
             </button>
@@ -183,7 +199,7 @@ export default function AuthPage() {
           <div className="mt-6 text-center">
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-blue-400 hover:text-blue-300 transition duration-200"
+              className="text-green-400 hover:text-green-300 transition duration-200"
             >
               {isLogin ? 'Não tem uma conta? Cadastre-se' : 'Já tem uma conta? Faça login'}
             </button>
