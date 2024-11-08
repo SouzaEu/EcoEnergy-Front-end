@@ -366,7 +366,7 @@ export default function EnhancedModernHomepage() {
                   value={formData.consumo}
                   onChange={handleInputChange}
                   placeholder="Insira seu consumo médio mensal em kWh"
-                  className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-neutral-600 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
                 />
               </div>
@@ -380,7 +380,7 @@ export default function EnhancedModernHomepage() {
                     name="tipoEnergia"
                     value={formData.tipoEnergia}
                     onChange={handleInputChange}
-                    className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none"
+                    className="w-full bg-neutral-600 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none"
                     required
                   >
                     <option value="">Selecione o tipo de energia</option>
@@ -404,7 +404,7 @@ export default function EnhancedModernHomepage() {
                     name="setor"
                     value={formData.setor}
                     onChange={handleInputChange}
-                    className="w-full bg-gray-700 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none"
+                    className="w-full bg-neutral-600 text-white border-none rounded p-3 focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none"
                     required
                   >
                     <option value="">Selecione o setor</option>
@@ -426,7 +426,7 @@ export default function EnhancedModernHomepage() {
 
             {resultados && (
               <motion.div
-                className="mt-8 p-6 bg-gray-700 rounded-lg"
+                className="mt-8 p-6 bg-neutral-600 rounded-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -442,6 +442,7 @@ export default function EnhancedModernHomepage() {
               </motion.div>
             )}
 
+
             <div className="mt-8 text-center">
               <p className="text-xl mb-4 text-gray-300">Pronto para adotar uma energia limpa e econômica?</p>
               <button
@@ -454,6 +455,7 @@ export default function EnhancedModernHomepage() {
           </motion.div>
         </div>
       </section>
+
 
       {/* Team Section */}
       <section id="integrantes" className="py-20 bg-neutral-800">
