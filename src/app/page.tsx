@@ -296,7 +296,7 @@ export default function EnhancedModernHomepage() {
                 objectFit="cover"
                 className="rounded-lg shadow-2xl"
               />
-              <div className="absolute inset-0 bg-green-600 opacity-20 rounded-lg"></div>
+              {/* Removido o filtro verde */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
                   initial={{ scale: 0 }}
@@ -329,6 +329,7 @@ export default function EnhancedModernHomepage() {
           </div>
         </div>
       </section>
+
 
       {/* Economize com Hidrogênio Verde Section */}
       <section id="serviços" className="py-20 bg-neutral-900">
