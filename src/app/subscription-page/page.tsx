@@ -1,28 +1,29 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { Car, CreditCard, Mail, Phone, Shield, User } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown, Home, Mail, MapPin, Phone, Shield, User } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 
 interface FormData {
   fullName: string
   email: string
   phone: string
-  carModel: string
-  carYear: string
-  insuranceType: string
-  paymentMethod: string
+  residenceType: string
+  neighborhood: string
+  planType: string
+  maintenanceOption: string
 }
 
-export default function SubscriptionPage() {
+export default function Component() {
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
     phone: '',
-    carModel: '',
-    carYear: '',
-    insuranceType: '',
-    paymentMethod: '',
+    residenceType: '',
+    neighborhood: '',
+    planType: '',
+    maintenanceOption: '',
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -41,20 +42,20 @@ export default function SubscriptionPage() {
       fullName: '',
       email: '',
       phone: '',
-      carModel: '',
-      carYear: '',
-      insuranceType: '',
-      paymentMethod: '',
+      residenceType: '',
+      neighborhood: '',
+      planType: '',
+      maintenanceOption: '',
     }
 
     if (!formData.fullName.trim()) newErrors.fullName = 'Nome é obrigatório'
     if (!formData.email.trim()) newErrors.email = 'E-mail é obrigatório'
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'E-mail inválido'
     if (!formData.phone.trim()) newErrors.phone = 'Telefone é obrigatório'
-    if (!formData.carModel.trim()) newErrors.carModel = 'Modelo do veículo é obrigatório'
-    if (!formData.carYear.trim()) newErrors.carYear = 'Ano do veículo é obrigatório'
-    if (!formData.insuranceType) newErrors.insuranceType = 'Tipo de seguro é obrigatório'
-    if (!formData.paymentMethod) newErrors.paymentMethod = 'Método de pagamento é obrigatório'
+    if (!formData.residenceType.trim()) newErrors.residenceType = 'Tipo de residência é obrigatório'
+    if (!formData.neighborhood.trim()) newErrors.neighborhood = 'Bairro é obrigatório'
+    if (!formData.planType) newErrors.planType = 'Tipo de plano é obrigatório'
+    if (!formData.maintenanceOption) newErrors.maintenanceOption = 'Opção de manutenção é obrigatória'
 
     const filteredErrors = Object.fromEntries(
       Object.entries(newErrors).filter(([_, value]) => value !== '')
@@ -75,7 +76,7 @@ export default function SubscriptionPage() {
     }
   }
 
-  const inputClasses = 'w-full bg-gray-700 text-white placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200'
+  const inputClasses = 'w-full bg-neutral-700 text-white placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200'
   const labelClasses = 'block text-sm font-medium text-gray-300 mb-1'
   const errorClasses = 'text-red-400 text-xs mt-1 flex items-center'
 
@@ -83,22 +84,28 @@ export default function SubscriptionPage() {
     { name: 'fullName', label: 'Nome Completo', type: 'text', icon: User, placeholder: 'Seu nome completo' },
     { name: 'email', label: 'E-mail', type: 'email', icon: Mail, placeholder: 'seu@email.com' },
     { name: 'phone', label: 'Telefone', type: 'tel', icon: Phone, placeholder: '(xx) xxxx-xxxx' },
-    { name: 'carModel', label: 'Modelo do Veículo', type: 'text', icon: Car, placeholder: 'Ex: Civic' },
-    { name: 'carYear', label: 'Ano do Veículo', type: 'text', placeholder: 'Ex: 2023' },
+    { name: 'residenceType', label: 'Tipo de Residência', type: 'text', icon: Home, placeholder: 'Ex: Casa, Apartamento' },
+    { name: 'neighborhood', label: 'Bairro', type: 'text', icon: MapPin, placeholder: 'Seu bairro' },
   ]
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-neutral-900 to-neutral-800 p-4">
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-blob animation-delay-4000"></div>
+      </div>
+      <div className="w-full max-w-md z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-800 shadow-2xl rounded-lg p-8"
+          className="bg-neutral-800 shadow-2xl rounded-lg p-8 border-[3.5px] border-green-600"
         >
-          <h2 className="text-3xl font-bold text-center text-white mb-6">Assine seu Seguro</h2>
+
+          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-500 to-green-600 text-transparent bg-clip-text mb-6">Assine o Plano EcoEnergy</h2>
           <p className="text-gray-300 text-center mb-8">
-            Preencha os detalhes do seguro e do veículo para completar a assinatura.
+            Preencha os detalhes para aderir ao nosso plano de energia sustentável e economize com hidrogênio verde.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -142,28 +149,31 @@ export default function SubscriptionPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.3 }}
             >
-              <label htmlFor="insuranceType" className={labelClasses}>Tipo de Seguro</label>
-              <select
-                id="insuranceType"
-                name="insuranceType"
-                value={formData.insuranceType}
-                onChange={handleInputChange}
-                className={inputClasses}
-              >
-                <option value="">Selecione o tipo de seguro</option>
-                <option value="roubo">Roubo</option>
-                <option value="colisao">Colisão</option>
-                <option value="completo">Completo</option>
-              </select>
+              <label htmlFor="planType" className={labelClasses}>Tipo de Plano</label>
+              <div className="relative">
+                <select
+                  id="planType"
+                  name="planType"
+                  value={formData.planType}
+                  onChange={handleInputChange}
+                  className={`${inputClasses} appearance-none`}
+                >
+                  <option value="">Selecione o tipo de plano</option>
+                  <option value="basic">Básico (Apenas Energia)</option>
+                  <option value="standard">Padrão (Energia + Monitoramento)</option>
+                  <option value="premium">Premium (Energia + Monitoramento + Otimização)</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
+              </div>
               <AnimatePresence>
-                {errors.insuranceType && (
+                {errors.planType && (
                   <motion.p
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     className={errorClasses}
                   >
-                    <Shield size={16} className="mr-1" /> {errors.insuranceType}
+                    <Shield size={16} className="mr-1" /> {errors.planType}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -174,30 +184,31 @@ export default function SubscriptionPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.3 }}
             >
-              <label htmlFor="paymentMethod" className={labelClasses}>Método de Pagamento</label>
+              <label htmlFor="maintenanceOption" className={labelClasses}>Opção de Manutenção</label>
               <div className="relative">
-                <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <select
-                  id="paymentMethod"
-                  name="paymentMethod"
-                  value={formData.paymentMethod}
+                  id="maintenanceOption"
+                  name="maintenanceOption"
+                  value={formData.maintenanceOption}
                   onChange={handleInputChange}
-                  className={`${inputClasses} pl-10`}
+                  className={`${inputClasses} appearance-none`}
                 >
-                  <option value="">Selecione o método de pagamento</option>
-                  <option value="creditCard">Cartão de Crédito</option>
-                  <option value="bankSlip">Boleto Bancário</option>
+                  <option value="">Selecione a opção de manutenção</option>
+                  <option value="none">Sem manutenção</option>
+                  <option value="basic">Manutenção Básica (Anual)</option>
+                  <option value="premium">Manutenção Premium (Trimestral)</option>
                 </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
               </div>
               <AnimatePresence>
-                {errors.paymentMethod && (
+                {errors.maintenanceOption && (
                   <motion.p
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     className={errorClasses}
                   >
-                    <Shield size={16} className="mr-1" /> {errors.paymentMethod}
+                    <Shield size={16} className="mr-1" /> {errors.maintenanceOption}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -207,7 +218,7 @@ export default function SubscriptionPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
+              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -224,15 +235,15 @@ export default function SubscriptionPage() {
             </motion.button>
           </form>
 
-          <motion.footer 
+          <motion.footer
             className="mt-6 text-center text-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
           >
-            <a href="#" className="text-blue-400 hover:text-blue-300 transition duration-200 mr-4">Política de Privacidade</a>
-            <a href="#" className="text-blue-400 hover:text-blue-300 transition duration-200 mr-4">Termos de Uso</a>
-            <a href="#" className="text-blue-400 hover:text-blue-300 transition duration-200">Contato</a>
+            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200 mr-4">Política de Privacidade</Link>
+            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200 mr-4">Termos de Uso</Link>
+            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200">Contato</Link>
           </motion.footer>
         </motion.div>
       </div>
