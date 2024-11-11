@@ -26,27 +26,21 @@ export default function Component() {
     maintenanceOption: '',
   })
 
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name]) {
+    
+    // Usando type assertion para garantir que `name` é uma chave de `errors`
+    if (errors[name as keyof FormData]) {
       setErrors((prev) => ({ ...prev, [name]: '' }))
     }
   }
 
   const validateForm = (): boolean => {
-    const newErrors: Record<keyof FormData, string> = {
-      fullName: '',
-      email: '',
-      phone: '',
-      residenceType: '',
-      neighborhood: '',
-      planType: '',
-      maintenanceOption: '',
-    }
+    const newErrors: Partial<Record<keyof FormData, string>> = {}
 
     if (!formData.fullName.trim()) newErrors.fullName = 'Nome é obrigatório'
     if (!formData.email.trim()) newErrors.email = 'E-mail é obrigatório'
@@ -57,12 +51,8 @@ export default function Component() {
     if (!formData.planType) newErrors.planType = 'Tipo de plano é obrigatório'
     if (!formData.maintenanceOption) newErrors.maintenanceOption = 'Opção de manutenção é obrigatória'
 
-    const filteredErrors = Object.fromEntries(
-      Object.entries(newErrors).filter(([_, value]) => value !== '')
-    )
-
-    setErrors(filteredErrors)
-    return Object.keys(filteredErrors).length === 0
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -132,21 +122,21 @@ export default function Component() {
                     type={field.type}
                     id={field.name}
                     name={field.name}
-                    value={formData[field.name as keyof FormData]}
+                    value={formData[field.name as keyof FormData]} // Type assertion aqui
                     onChange={handleInputChange}
-                    className={`${inputClasses} ${field.icon ? 'pl-10' : ''}`}
                     placeholder={field.placeholder}
+                    className={`pl-10 ${inputClasses}`}
                   />
                 </div>
                 <AnimatePresence>
-                  {errors[field.name] && (
+                  {errors[field.name as keyof FormData] && ( // Type assertion aqui também
                     <motion.p
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       className={errorClasses}
                     >
-                      <Shield size={16} className="mr-1" /> {errors[field.name]}
+                      <Shield size={16} className="mr-1" /> {errors[field.name as keyof FormData]}
                     </motion.p>
                   )}
                 </AnimatePresence>
@@ -202,10 +192,10 @@ export default function Component() {
                   onChange={handleInputChange}
                   className={`${inputClasses} appearance-none`}
                 >
-                  <option value="">Selecione a opção de manutenção</option>
-                  <option value="none">Sem manutenção</option>
-                  <option value="basic">Manutenção Básica (Anual)</option>
-                  <option value="premium">Manutenção Premium (Trimestral)</option>
+                  <option value="">Selecione a manutenção</option>
+                  <option value="no_maintenance">Sem manutenção</option>
+                  <option value="monthly_maintenance">Manutenção mensal</option>
+                  <option value="annual_maintenance">Manutenção anual</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
               </div>
@@ -227,33 +217,12 @@ export default function Component() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
               disabled={isSubmitting}
+              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-500 text-white font-semibold py-2 rounded-md transition duration-200"
             >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processando...
-                </span>
-              ) : (
-                'Assinar Agora'
-              )}
+              {isSubmitting ? 'Enviando...' : 'Assinar Plano'}
             </motion.button>
           </form>
-
-          <motion.footer
-            className="mt-6 text-center text-sm"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-          >
-            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200 mr-4">Política de Privacidade</Link>
-            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200 mr-4">Termos de Uso</Link>
-            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200">Contato</Link>
-          </motion.footer>
         </motion.div>
       </div>
     </div>
