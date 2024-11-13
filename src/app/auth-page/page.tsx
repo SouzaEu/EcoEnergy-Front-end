@@ -56,17 +56,30 @@ export default function AuthPage() {
           console.log('Login successful', response.data)
           // Handle successful login (e.g., store token, redirect)
         } else {
-          await axios.post('http://localhost:8080/usuarios', {
-            email: formData.email,
-            senha: formData.senha,
-            nomeCompleto: formData.nomeCompleto
-          })
+          await axios.post('http://localhost:8080/usuarios', formData)
           console.log('Registration successful')
           setIsLogin(true) // Switch to login view after successful registration
         }
       } catch (error) {
-        console.error('Authentication error', error)
-        // Handle error (e.g., show error message)
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error('Authentication error', error.response.data)
+            alert(`Erro de autenticação: ${error.response.data.message || 'Tente novamente mais tarde.'}`)
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('Network error', error.request)
+            alert('Erro de rede: Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.')
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error', error.message)
+            alert('Erro inesperado. Por favor, tente novamente.')
+          }
+        } else {
+          console.error('Unexpected error', error)
+          alert('Erro inesperado. Por favor, tente novamente.')
+        }
       }
     }
   }
