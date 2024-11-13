@@ -35,14 +35,13 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 ## 🔧 Instalação
 
 ### Frontend
-    ```bash
-        # Clone o repositório
+# Clone o repositório
         git clone https://github.com/SouzaEu/GLOBAL-SOLUTION-FRONT-END-1TDSPK.git
         
-        # Instale as dependências
+# Instale as dependências
         npm install
         
-        # Inicie o servidor de desenvolvimento
+# Inicie o servidor de desenvolvimento
         npm run dev
 
 ## 👥 Sobre a Equipe
