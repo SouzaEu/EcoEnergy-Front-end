@@ -1,0 +1,13 @@
+{
+    "id": null,
+    "usuarioId": null,
+    "nomeCompleto": "",
+    "email": "",
+    "senha": "",
+    "telefone": "",
+    "tipoResidencia": "",
+    "bairro": "",
+    "tipoPlano": "",
+    "opcaoManutencao": "",
+    "token": ""
+}
