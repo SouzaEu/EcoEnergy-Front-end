@@ -34,7 +34,6 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 
 ## 🔧 Instalação
 
-### Frontend
 # Clone o repositório
         git clone https://github.com/SouzaEu/GLOBAL-SOLUTION-FRONT-END-1TDSPK.git
         
