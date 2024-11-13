@@ -1,36 +1,29 @@
 'use client'
 
+import axios from 'axios'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
-// Definindo o tipo para os dados do formulário
 interface FormData {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  fullName: string;
-}
-
-// Definindo o tipo para os erros
-interface FormErrors {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  fullName?: string;
+  email: string
+  senha: string
+  confirmarSenha: string
+  nomeCompleto: string
 }
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [formData, setFormData] = useState<FormData>({
     email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
+    senha: '',
+    confirmarSenha: '',
+    nomeCompleto: '',
   })
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [errors, setErrors] = useState<Partial<FormData>>({})
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -39,27 +32,47 @@ export default function AuthPage() {
   }
 
   const validateForm = () => {
-    const newErrors: FormErrors = {}
+    const newErrors: Partial<FormData> = {}
     if (!formData.email) newErrors.email = 'E-mail é obrigatório'
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'E-mail inválido'
-    if (!formData.password) newErrors.password = 'Senha é obrigatória'
+    if (!formData.senha) newErrors.senha = 'Senha é obrigatória'
     if (!isLogin) {
-      if (!formData.fullName) newErrors.fullName = 'Nome completo é obrigatório'
-      if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Senhas não correspondem'
+      if (!formData.nomeCompleto) newErrors.nomeCompleto = 'Nome completo é obrigatório'
+      if (!formData.confirmarSenha) newErrors.confirmarSenha = 'Confirmação de senha é obrigatória'
+      else if (formData.senha !== formData.confirmarSenha) newErrors.confirmarSenha = 'As senhas não coincidem'
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (validateForm()) {
-      console.log('Form submitted:', formData)
-      setFormData({ email: '', password: '', confirmPassword: '', fullName: '' })
+      try {
+        if (isLogin) {
+          const response = await axios.post('http://localhost:8080/usuarios/login', null, {
+            params: { email: formData.email, senha: formData.senha }
+          })
+          console.log('Login successful', response.data)
+          // Handle successful login (e.g., store token, redirect)
+        } else {
+          await axios.post('http://localhost:8080/usuarios', {
+            email: formData.email,
+            senha: formData.senha,
+            nomeCompleto: formData.nomeCompleto
+          })
+          console.log('Registration successful')
+          setIsLogin(true) // Switch to login view after successful registration
+        }
+      } catch (error) {
+        console.error('Authentication error', error)
+        // Handle error (e.g., show error message)
+      }
     }
   }
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword)
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword)
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-neutral-900 to-neutral-800 p-4">
@@ -99,19 +112,19 @@ export default function AuthPage() {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="space-y-1">
-                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-300">
+                    <label htmlFor="nomeCompleto" className="block text-sm font-medium text-gray-300">
                       Nome Completo
                     </label>
                     <input
                       type="text"
-                      id="fullName"
-                      name="fullName"
-                      value={formData.fullName}
+                      id="nomeCompleto"
+                      name="nomeCompleto"
+                      value={formData.nomeCompleto}
                       onChange={handleInputChange}
                       className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
                       placeholder="Seu nome completo"
                     />
-                    {errors.fullName && <p className="text-red-400 text-xs mt-1">{errors.fullName}</p>}
+                    {errors.nomeCompleto && <p className="text-red-400 text-xs mt-1">{errors.nomeCompleto}</p>}
                   </div>
                 </motion.div>
               )}
@@ -132,15 +145,15 @@ export default function AuthPage() {
               {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
             </div>
             <div className="space-y-1">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="senha" className="block text-sm font-medium text-gray-300">
                 Senha
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  value={formData.password}
+                  id="senha"
+                  name="senha"
+                  value={formData.senha}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
                   placeholder="Sua senha"
@@ -153,7 +166,7 @@ export default function AuthPage() {
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
+              {errors.senha && <p className="text-red-400 text-xs mt-1">{errors.senha}</p>}
             </div>
             <AnimatePresence mode="wait">
               {!isLogin && (
@@ -165,19 +178,28 @@ export default function AuthPage() {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="space-y-1">
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+                    <label htmlFor="confirmarSenha" className="block text-sm font-medium text-gray-300">
                       Confirmar Senha
                     </label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
-                      placeholder="Confirme sua senha"
-                    />
-                    {errors.confirmPassword && <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>}
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        id="confirmarSenha"
+                        name="confirmarSenha"
+                        value={formData.confirmarSenha}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
+                        placeholder="Confirme sua senha"
+                      />
+                      <button
+                        type="button"
+                        onClick={toggleConfirmPasswordVisibility}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-300 transition duration-200"
+                      >
+                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      </button>
+                    </div>
+                    {errors.confirmarSenha && <p className="text-red-400 text-xs mt-1">{errors.confirmarSenha}</p>}
                   </div>
                 </motion.div>
               )}

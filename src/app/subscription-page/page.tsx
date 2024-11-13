@@ -1,96 +1,100 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowLeft, ChevronDown, Home, Mail, MapPin, Phone, Shield, User } from 'lucide-react'
+import axios from 'axios'
+import { motion } from 'framer-motion'
+import { ArrowLeft, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
 
 interface FormData {
-  fullName: string
+  nomeCompleto: string
   email: string
-  phone: string
-  residenceType: string
-  neighborhood: string
-  planType: string
-  maintenanceOption: string
+  telefone: string
+  tipoResidencia: string
+  bairro: string
+  tipoPlano: string
+  opcaoManutencao: string
 }
 
-interface FormField {
-  name: keyof FormData
-  label: string
-  type: string
-  icon: React.ElementType
-  placeholder: string
-}
-
-export default function Component() {
+export default function SubscriptionPage() {
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
+    nomeCompleto: '',
     email: '',
-    phone: '',
-    residenceType: '',
-    neighborhood: '',
-    planType: '',
-    maintenanceOption: '',
+    telefone: '',
+    tipoResidencia: '',
+    bairro: '',
+    tipoPlano: '',
+    opcaoManutencao: '',
   })
-
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-  const [isClient, setIsClient] = useState(false)
+  const [errors, setErrors] = useState<Partial<FormData>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [currentSubscription, setCurrentSubscription] = useState<FormData | null>(null)
 
   useEffect(() => {
-    setIsClient(true)
+    fetchCurrentSubscription()
   }, [])
+
+  const fetchCurrentSubscription = async () => {
+    try {
+      const userId = localStorage.getItem('userId')
+      if (userId) {
+        const response = await axios.get(`http://localhost:8080/assinaturas/${userId}`)
+        setCurrentSubscription(response.data)
+        setFormData(response.data)
+      }
+    } catch (error) {
+      console.error('Error fetching current subscription:', error)
+    }
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name as keyof FormData]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }))
-    }
+    setErrors((prev) => ({ ...prev, [name]: '' }))
   }
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {}
-
-    if (!formData.fullName.trim()) newErrors.fullName = 'Nome é obrigatório'
+    const newErrors: Partial<FormData> = {}
+    if (!formData.nomeCompleto.trim()) newErrors.nomeCompleto = 'Nome completo é obrigatório'
     if (!formData.email.trim()) newErrors.email = 'E-mail é obrigatório'
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'E-mail inválido'
-    if (!formData.phone.trim()) newErrors.phone = 'Telefone é obrigatório'
-    if (!formData.residenceType.trim()) newErrors.residenceType = 'Tipo de residência é obrigatório'
-    if (!formData.neighborhood.trim()) newErrors.neighborhood = 'Bairro é obrigatório'
-    if (!formData.planType) newErrors.planType = 'Tipo de plano é obrigatório'
-    if (!formData.maintenanceOption) newErrors.maintenanceOption = 'Opção de manutenção é obrigatória'
-
+    if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'E-mail inválido'
+    if (!formData.telefone.trim()) newErrors.telefone = 'Telefone é obrigatório'
+    if (!formData.tipoResidencia.trim()) newErrors.tipoResidencia = 'Tipo de residência é obrigatório'
+    if (!formData.bairro.trim()) newErrors.bairro = 'Bairro é obrigatório'
+    if (!formData.tipoPlano) newErrors.tipoPlano = 'Tipo de plano é obrigatório'
+    if (!formData.opcaoManutencao) newErrors.opcaoManutencao = 'Opção de manutenção é obrigatória'
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (validateForm()) {
       setIsSubmitting(true)
-      setTimeout(() => {
+      try {
+        const userId = localStorage.getItem('userId')
+        if (currentSubscription) {
+          await axios.put(`http://localhost:8080/assinaturas/${currentSubscription.id}`, {
+            ...formData,
+            usuarioId: userId,
+          })
+
+        } else {
+          await axios.post('http://localhost:8080/assinaturas', {
+            ...formData,
+            usuarioId: userId,
+          })
+        }
+        alert('Assinatura salva com sucesso!')
+        fetchCurrentSubscription()
+      } catch (error) {
+        console.error('Error saving subscription:', error)
+        alert('Erro ao salvar assinatura. Por favor, tente novamente.')
+      } finally {
         setIsSubmitting(false)
-        alert('Assinatura realizada com sucesso!')
-      }, 2000)
+      }
     }
-  }
-
-  const inputClasses = 'w-full bg-neutral-700 text-white placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200'
-  const labelClasses = 'block text-sm font-medium text-gray-300 mb-1'
-  const errorClasses = 'text-red-400 text-xs mt-1 flex items-center'
-
-  const formFields: FormField[] = [
-    { name: 'fullName', label: 'Nome Completo', type: 'text', icon: User, placeholder: 'Seu nome completo' },
-    { name: 'email', label: 'E-mail', type: 'email', icon: Mail, placeholder: 'seu@email.com' },
-    { name: 'phone', label: 'Telefone', type: 'tel', icon: Phone, placeholder: '(xx) xxxx-xxxx' },
-    { name: 'residenceType', label: 'Tipo de Residência', type: 'text', icon: Home, placeholder: 'Ex: Casa, Apartamento' },
-    { name: 'neighborhood', label: 'Bairro', type: 'text', icon: MapPin, placeholder: 'Seu bairro' },
-  ]
-
-  if (!isClient) {
-    return null // or a loading spinner
   }
 
   return (
@@ -117,148 +121,151 @@ export default function Component() {
               Voltar
             </motion.button>
           </Link>
-          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-500 to-green-600 text-transparent bg-clip-text mb-6">Assine o Plano EcoEnergy</h2>
-          <p className="text-gray-300 text-center mb-8">
+          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-500 to-green-600 text-transparent bg-clip-text mb-6">
+            Assine o Plano EcoEnergy
+          </h2>
+          <p className="text-gray-300 text-center mb-6">
             Preencha os detalhes para aderir ao nosso plano de energia sustentável e economize com hidrogênio verde.
           </p>
-
           <form onSubmit={handleSubmit} className="space-y-4">
-            {formFields.map((field, index) => (
-              <motion.div
-                key={field.name}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index, duration: 0.3 }}
-              >
-                <label htmlFor={field.name} className={labelClasses}>{field.label}</label>
-                <div className="relative">
-                  {field.icon && <field.icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />}
-                  <input
-                    type={field.type}
-                    id={field.name}
-                    name={field.name}
-                    value={formData[field.name]}
-                    onChange={handleInputChange}
-                    className={`${inputClasses} ${field.icon ? 'pl-10' : ''}`}
-                    placeholder={field.placeholder}
-                  />
-                </div>
-                <AnimatePresence>
-                  {errors[field.name] && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className={errorClasses}
-                    >
-                      <Shield size={16} className="mr-1" /> {errors[field.name]}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.3 }}
-            >
-              <label htmlFor="planType" className={labelClasses}>Tipo de Plano</label>
+            <div className="space-y-1">
+              <label htmlFor="nomeCompleto" className="block text-sm font-medium text-gray-300">
+                Nome Completo
+              </label>
+              <input
+                type="text"
+                id="nomeCompleto"
+                name="nomeCompleto"
+                value={formData.nomeCompleto}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
+                placeholder="Seu nome completo"
+              />
+              {errors.nomeCompleto && <p className="text-red-400 text-xs mt-1">{errors.nomeCompleto}</p>}
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                E-mail
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
+                placeholder="seu@email.com"
+              />
+              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="telefone" className="block text-sm font-medium text-gray-300">
+                Telefone
+              </label>
+              <input
+                type="tel"
+                id="telefone"
+                name="telefone"
+                value={formData.telefone}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
+                placeholder="(xx) xxxxx-xxxx"
+              />
+              {errors.telefone && <p className="text-red-400 text-xs mt-1">{errors.telefone}</p>}
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="tipoResidencia" className="block text-sm font-medium text-gray-300">
+                Tipo de Residência
+              </label>
+              <input
+                type="text"
+                id="tipoResidencia"
+                name="tipoResidencia"
+                value={formData.tipoResidencia}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
+                placeholder="Ex: Casa, Apartamento"
+              />
+              {errors.tipoResidencia && <p className="text-red-400 text-xs mt-1">{errors.tipoResidencia}</p>}
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="bairro" className="block text-sm font-medium text-gray-300">
+                Bairro
+              </label>
+              <input
+                type="text"
+                id="bairro"
+                name="bairro"
+                value={formData.bairro}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200"
+                placeholder="Seu bairro"
+              />
+              {errors.bairro && <p className="text-red-400 text-xs mt-1">{errors.bairro}</p>}
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="tipoPlano" className="block text-sm font-medium text-gray-300">
+                Tipo de Plano
+              </label>
               <div className="relative">
                 <select
-                  id="planType"
-                  name="planType"
-                  value={formData.planType}
+                  id="tipoPlano"
+                  name="tipoPlano"
+                  value={formData.tipoPlano}
                   onChange={handleInputChange}
-                  className={`${inputClasses} appearance-none`}
+                  className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 appearance-none"
                 >
                   <option value="">Selecione o tipo de plano</option>
-                  <option value="basic">Básico (Apenas Energia)</option>
-                  <option value="standard">Padrão (Energia + Monitoramento)</option>
-                  <option value="premium">Premium (Energia + Monitoramento + Otimização)</option>
+                  <option value="basico">Básico</option>
+                  <option value="padrao">Padrão</option>
+                  <option value="premium">Premium</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
               </div>
-              <AnimatePresence>
-                {errors.planType && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className={errorClasses}
-                  >
-                    <Shield size={16} className="mr-1" /> {errors.planType}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.3 }}
-            >
-              <label htmlFor="maintenanceOption" className={labelClasses}>Opção de Manutenção</label>
+              {errors.tipoPlano && <p className="text-red-400 text-xs mt-1">{errors.tipoPlano}</p>}
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="opcaoManutencao" className="block text-sm font-medium text-gray-300">
+                Opção de Manutenção
+              </label>
               <div className="relative">
                 <select
-                  id="maintenanceOption"
-                  name="maintenanceOption"
-                  value={formData.maintenanceOption}
+                  id="opcaoManutencao"
+                  name="opcaoManutencao"
+                  value={formData.opcaoManutencao}
                   onChange={handleInputChange}
-                  className={`${inputClasses} appearance-none`}
+                  className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 appearance-none"
                 >
                   <option value="">Selecione a opção de manutenção</option>
-                  <option value="none">Sem manutenção</option>
-                  <option value="basic">Manutenção Básica (Anual)</option>
-                  <option value="premium">Manutenção Premium (Trimestral)</option>
+                  <option value="sem manutenção">Sem manutenção</option>
+                  <option value="manutenção basica">Manutenção Básica</option>
+                  <option value="manutenção premium">Manutenção Premium</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
               </div>
-              <AnimatePresence>
-                {errors.maintenanceOption && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className={errorClasses}
-                  >
-                    <Shield size={16} className="mr-1" /> {errors.maintenanceOption}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              {errors.opcaoManutencao && <p className="text-red-400 text-xs mt-1">{errors.opcaoManutencao}</p>}
+            </div>
+            <button
               type="submit"
-              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
+              className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-neutral-800 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
               disabled={isSubmitting}
             >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processando...
-                </span>
-              ) : (
-                'Assinar Agora'
-              )}
-            </motion.button>
+              {isSubmitting ? 'Processando...' : 'Assinar'}
+            </button>
           </form>
-
-          <motion.footer
-            className="mt-6 text-center text-sm"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-          >
-            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200 mr-4">Política de Privacidade</Link>
-            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200 mr-4">Termos de Uso</Link>
-            <Link href="#" className="text-green-400 hover:text-green-300 transition duration-200">Contato</Link>
-          </motion.footer>
+          <div className="mt-6 text-center text-sm text-gray-400">
+            <Link href="/politica-privacidade" className="text-green-400 hover:text-green-300 transition duration-200">
+              Política de Privacidade
+            </Link>
+            {' | '}
+            <Link href="/termos-uso" className="text-green-400 hover:text-green-300 transition duration-200">
+              Termos de Uso
+            </Link>
+            {' | '}
+            <Link href="/contato" className="text-green-400 hover:text-green-300 transition duration-200">
+              Contato
+            </Link>
+          </div>
         </motion.div>
       </div>
     </div>
