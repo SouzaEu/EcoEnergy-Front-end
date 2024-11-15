@@ -93,7 +93,7 @@ export default function TeamPage() {
             className="mt-6"
           >
             <Link
-              href="https://github.com/EcoEnergy/sustainable-energy-solutions"
+              href="https://github.com/SouzaEu/GLOBAL-SOLUTION-FRONT-END-1TDSPK"
               target="_blank"
               rel="noopener noreferrer"
               className="text-green-500 hover:text-green-400 transition-colors inline-flex items-center"
