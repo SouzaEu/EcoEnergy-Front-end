@@ -317,13 +317,16 @@ export default function EnhancedModernHomepage() {
             >
               <h3 className="text-2xl font-semibold mb-4">O que queremos melhorar?</h3>
               <p className="text-lg">
-                Nosso foco principal é impulsionar o crescimento econômico através da adoção de tecnologias de energia renovável, com ênfase no Hidrogênio Verde.
+              Nosso objetivo é impulsionar o crescimento econômico com foco na adoção de tecnologias de energia renovável, especialmente o Hidrogênio Verde. Essa solução é chave para reduzir a dependência de combustíveis fósseis e transformar o futuro da energia.
               </p>
               <p className="text-lg">
-                Buscamos criar uma plataforma que integre inteligência artificial para calcular e reduzir custos e emissões, oferecendo soluções personalizadas de energia limpa.
+              Desenvolvemos uma plataforma com inteligência artificial para otimizar custos e reduzir emissões, oferecendo soluções de energia limpa sob medida para cada cliente ou projeto.
               </p>
               <p className="text-lg">
-                Nosso objetivo é democratizar o acesso à energia sustentável, promovendo desenvolvimento econômico e preservação ambiental simultaneamente.
+              Queremos democratizar o acesso à energia sustentável, promovendo o desenvolvimento econômico e a preservação ambiental, com impacto positivo duradouro.
+              </p>
+              <p className="text-lg">
+              Transforme o futuro da energia conosco e construa um mundo mais sustentável e próspero.
               </p>
             </motion.div>
           </div>
