@@ -216,9 +216,9 @@ export default function SubscriptionPage() {
                   className="w-full px-3 py-2 bg-neutral-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 appearance-none"
                 >
                   <option value="">Selecione o tipo de plano</option>
-                  <option value="basico">Básico</option>
-                  <option value="padrao">Padrão</option>
-                  <option value="premium">Premium</option>
+                  <option value="basico">Básico (Apenas Energia)</option>
+                  <option value="padrao">Padrão (Energia + Monitoramento)</option>
+                  <option value="premium">Premium (Energia + Monitoramento + Otimização)</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
               </div>
@@ -238,8 +238,8 @@ export default function SubscriptionPage() {
                 >
                   <option value="">Selecione a opção de manutenção</option>
                   <option value="sem manutenção">Sem manutenção</option>
-                  <option value="manutenção basica">Manutenção Básica</option>
-                  <option value="manutenção premium">Manutenção Premium</option>
+                  <option value="manutenção basica">Manutenção Basica (Anual)</option>
+                  <option value="manutenção premium">Manutenção Premium (Trimestral)</option>
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
               </div>
