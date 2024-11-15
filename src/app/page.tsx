@@ -461,7 +461,7 @@ export default function EnhancedModernHomepage() {
 
 
       {/* Team Section */}
-      <section id="integrantes" className="py-20 bg-neutral-800">
+      <section id="equipe" className="py-20 bg-neutral-800">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-16"
@@ -714,7 +714,7 @@ text-green-500 mr-4" size={24} />
                 <li><Link href="#início" className="hover:text-green-500 transition-colors duration-300">Início</Link></li>
                 <li><Link href="#sobre-nós" className="hover:text-green-500 transition-colors duration-300">Sobre Nós</Link></li>
                 <li><Link href="#serviços" className="hover:text-green-500 transition-colors duration-300">Serviços</Link></li>
-                <li><Link href="#integrantes" className="hover:text-green-500 transition-colors duration-300">Equipe</Link></li>
+                <li><Link href="#equipe" className="hover:text-green-500 transition-colors duration-300">Equipe</Link></li>
                 <li><Link href="#insights" className="hover:text-green-500 transition-colors duration-300">Insights</Link></li>
                 <li><Link href="#contato" className="hover:text-green-500 transition-colors duration-300">Contato</Link></li>
               </ul>
