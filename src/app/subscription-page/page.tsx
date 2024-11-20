@@ -75,7 +75,7 @@ export default function SubscriptionPage() {
       try {
         const userId = localStorage.getItem('userId')
         if (currentSubscription) {
-          await axios.put(`http://localhost:8080/assinaturas/${currentSubscription.id}`, {
+          await axios.put(`http://localhost:8080/assinaturas/${currentSubscription}`, {
             ...formData,
             usuarioId: userId,
           })
