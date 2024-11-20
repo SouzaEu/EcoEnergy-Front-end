@@ -84,7 +84,7 @@ export default function TeamPage() {
           <div className="w-24 h-1 bg-green-600 mx-auto mb-8"></div>
           <p className="text-gray-300 max-w-2xl mx-auto text-lg">
             A equipe por trás do EcoEnergy é composta por profissionais dedicados e apaixonados por energia sustentável.
-            Nosso objetivo é revolucionar o setor energético com soluções inovadoras em hidrogênio verde.
+            Nosso objetivo é revolucionar o setor energético com soluções inovadoras em hidrogênio verde. Todos são da 1TDSPK
           </p>
           <motion.div
             initial={{ opacity: 0 }}
