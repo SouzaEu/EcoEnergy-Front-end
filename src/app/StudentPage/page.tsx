@@ -20,7 +20,7 @@ const teamMembers = [
     email: "gabrielduarte3219@gmail.com",
     rm: "556972",
     github: "https://github.com/gabrielduar7e",
-    linkedin: "https://www.linkedin.com/in/gabriel-duarte-pinto/",
+    linkedin: "https://www.linkedin.com/in/gabriel-duarte-a94a65321?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     image: "/gabrielgatao.jpg",
     role: "UI/UX Designer"
   },
