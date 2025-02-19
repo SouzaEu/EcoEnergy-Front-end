@@ -45,7 +45,7 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 
 ## 👥 Sobre a Equipe
 
-O projeto foi desenvolvido pela equipe abaixo, que trabalhou colaborativamente para atingir os objetivos do desafio.
+O projeto foi desenvolvido pela equipe abaixo, que trabalhou colaborativamente para atingir os objetivos do
 
 - **Vinicius Souza Carvalho**
   - E-mail: vinisouzacntt@gmail.com
