@@ -13,8 +13,8 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 - 🔧 Opções flexíveis de manutenção
 - 💚 Monitoramento de consumo de energia eletricca
 
-## 🛠️ Tecnologias Utilizadas
-## Frontend
+# 🛠️ Tecnologias Utilizadas
+# Frontend
 - React.js
 - Next.js 13
 - TypeScript
