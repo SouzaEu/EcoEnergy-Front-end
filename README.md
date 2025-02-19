@@ -11,7 +11,7 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 - 📝 Gerenciamento de assinaturas
 - 🏠 Diferentes planos para residências
 - 🔧 Opções flexíveis de manutenção
-- 💚 Monitoramento de consumo de energia sustentável
+- 💚 Monitoramento de consumo de energia eletricca
 
 ## 🛠️ Tecnologias Utilizadas
 ### Frontend
