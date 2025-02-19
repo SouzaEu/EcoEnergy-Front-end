@@ -57,7 +57,7 @@ O projeto foi desenvolvido pela equipe abaixo, que trabalhou colaborativamente p
   - RM: 556972
   - GitHub: [gabrielduar7e](https://github.com/gabrielduar7e)
 
-- **Thomaz Oliveira Vilas Boas Bartol**
+- **Thomaz Oliveira Vilas Boas Bartol*
   - E-mail: thomaz.bartol2006@gmail.com
   - RM: 555323
   - GitHub: [ThomazBartol](https://github.com/ThomazBartol)
