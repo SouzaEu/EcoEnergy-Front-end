@@ -13,7 +13,7 @@ const teamMembers = [
     github: "https://github.com/SouzaEu",
     linkedin: "https://www.linkedin.com/in/souzav/",
     image: "/rosto-vini.jpg",
-    role: "Back-end Developer"
+    role: "FullStack Developer"
   },
   {
     name: "Gabriel Duarte Pinto",
@@ -31,7 +31,7 @@ const teamMembers = [
     github: "https://github.com/ThomazBartol",
     linkedin: "https://www.linkedin.com/in/thomaz-bartol/",
     image: "/rosto-thomaz.jpg",
-    role: "Front-end Developer"
+    role: "Organizer"
   }
 ]
 
