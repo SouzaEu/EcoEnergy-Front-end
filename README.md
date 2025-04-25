@@ -44,4 +44,4 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 
 - [Repositório do Projeto](https://github.com/SouzaEu/EcoEnergy-Front-end)
 - [Deploy do Front-end na Vercel](eco-energy-two.vercel.app/)
-- [Documentação do Back-end em Java](https://github.com/SouzaEu/JavaSubManagement)
+- [Documentação do Back-end em Java](https://github.com/SouzaEu/JavaSubManager)
