@@ -1,4 +1,4 @@
-# 🌱 EcoEnergy - Energia Sustentável - GLOBAL SOLUTION
+# 🌱 EcoEnergy - Energia Sustentável
 
 ## 📋 Sobre o Projeto
 O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia sustentável através do uso de hidrogênio verde. Nossa missão é tornar a energia limpa acessível a todos, contribuindo para um futuro mais sustentável.
@@ -43,5 +43,5 @@ O EcoEnergy é uma plataforma inovadora focada em fornecer soluções de energia
 ## 🔗 Links Úteis
 
 - [Repositório do Projeto](https://github.com/SouzaEu/EcoEnergy-Front-end)
-- [Deploy do Front-end na Vercel](https://vercel.com/souzavs-projects)
+- [Deploy do Front-end na Vercel](eco-energy-two.vercel.app/)
 - [Documentação do Back-end em Java](https://github.com/SouzaEu/JavaSubManagement)
